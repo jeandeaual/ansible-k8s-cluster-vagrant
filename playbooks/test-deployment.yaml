@@ -1,0 +1,11 @@
+- hosts: kube1
+  become: true
+
+  vars_files:
+    - ../vars/main.yml
+
+  pre_tasks:
+    - name: Ensure k8s module dependencies are installed.
+      pip:
+        name: openshift
+        state: present

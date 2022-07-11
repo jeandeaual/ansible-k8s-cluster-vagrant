@@ -1,0 +1,45 @@
+{
+  "name": "Ansible",
+
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "VARIANT": "3.10-bullseye",
+      "NODE_VERSION": "lts/*"
+    }
+  },
+
+  "settings": {
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+
+  "remoteUser": "vscode",
+
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/home/vscode/.local/bin",
+    "POETRY_VIRTUALENVS_CREATE": "true"
+  },
+
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+    // "source=/dev/vboxdrv,target=/dev/vboxdrv,type=bind",
+    // "source=/dev/vboxnetctl,target=/dev/vboxnetctl,type=bind",
+    // "source=${localEnv:HOME}${localEnv:USERPROFILE}/.vagrant.d,target=/home/vscode/.vagrant.d,type=bind,consistency=cached"
+  ],
+
+  "postCreateCommand": "sudo chmod 666 /var/run/docker.sock && poetry install --no-root && poetry run ansible-galaxy install -r requirements.yaml",
+
+  "extensions": [
+    "redhat.ansible",
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml",
+    // For Vagrant
+    "rebornix.ruby",
+    "castwide.solargraph",
+    "esbenp.prettier-vscode",
+    "bierner.github-markdown-preview",
+    "eamodio.gitlens"
+  ]
+}
